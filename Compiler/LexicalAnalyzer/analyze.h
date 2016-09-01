@@ -10,6 +10,7 @@ public:
     Analyzer();
     void open(std::string filename);
     void showRaw();
+    bool analyzer();
 private:
     struct Line
     {
@@ -23,4 +24,7 @@ private:
     };
 
     std::vector<Line> text;
+    std::vector<int> idTable;
+    std::vector<std::string> numTable;
+    void tokenDivide(int line);
 };

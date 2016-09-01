@@ -45,3 +45,8 @@ void Analyzer::showRaw()
     }
 }
 
+bool Analyzer::analyzer()
+{
+
+}
+
