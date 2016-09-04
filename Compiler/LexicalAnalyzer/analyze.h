@@ -15,6 +15,7 @@ public:
     void open(string filename);
     void showRaw();
     void showResult();
+    void showError();
     bool analyze();
 private:
     struct Line
@@ -67,10 +68,22 @@ private:
 
     };
 
+    struct Error
+    {
+        size_t line;
+        string info;
+        Error(size_t line, string info)
+        {
+            this->line = line;
+            this->info = info;
+        }
+    };
+
     vector<Line> text;
     vector<string> idTable;
     vector<string> numTable;
     vector<Unit> resultTable;
+    vector<Error> errorTable;
 
     void blankCheck(size_t &position, const Line &data);
     bool letterCheck(const size_t &position, const Line &data);

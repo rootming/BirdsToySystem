@@ -100,6 +100,15 @@ void Analyzer::showResult()
     }
 }
 
+void Analyzer::showError()
+{
+    cout << "Count error:" << errorTable.size() << endl;
+    for(auto it: errorTable){
+        cout << "Line: " << it.line << ", Error: " << it.info << endl;
+    }
+
+
+}
 bool Analyzer::analyze()
 {
     cout << "Total: " << text.size() << " line(s)" << endl;
@@ -146,6 +155,10 @@ void Analyzer::tokenDivide(const size_t &lineNumber)
                 resultTable.push_back(Unit("relop", "LE"));
                 position += 2;
             }
+            else if(temp.line[position + 1] == '<'){
+                resultTable.push_back(Unit("relop", "LSHIFT"));
+                position += 2;
+            }
             else{
                 resultTable.push_back(Unit("<", "_"));
                 position++;
@@ -156,11 +169,14 @@ void Analyzer::tokenDivide(const size_t &lineNumber)
                 resultTable.push_back(Unit("relop", "RE"));
                 position += 2;
             }
+            else if(temp.line[position + 1] == '>'){
+                resultTable.push_back(Unit("relop", "RSHIFT"));
+                position += 2;
+            }
             else{
                 resultTable.push_back(Unit(">", "_"));
                 position++;
             }
-
             break;
         case '=':
             if(temp.line[position + 1] == '='){
@@ -174,13 +190,93 @@ void Analyzer::tokenDivide(const size_t &lineNumber)
 
             break;
         case '+':
+            if(temp.line[position + 1] == '='){
+                resultTable.push_back(Unit("relop", "SELFADD"));
+                position += 2;
+            }
+            else{
+                resultTable.push_back(Unit("+", "_"));
+                position++;
+            }
+            break;
         case '-':
+            if(temp.line[position + 1] == '='){
+                resultTable.push_back(Unit("relop", "SELFSUB"));
+                position += 2;
+            }
+            else{
+                resultTable.push_back(Unit("-", "_"));
+                position++;
+            }
+            break;
         case '*':
+            if(temp.line[position + 1] == '='){
+                resultTable.push_back(Unit("relop", "SELFMULT"));
+                position += 2;
+            }
+            else{
+                resultTable.push_back(Unit("*", "_"));
+                position++;
+            }
+            break;
         case '/':
+            if(temp.line[position + 1] == '='){
+                resultTable.push_back(Unit("relop", "SELFDIV"));
+                position += 2;
+            }
+            else{
+                resultTable.push_back(Unit("/", "_"));
+                position++;
+            }
+            break;
         case '%':
+            if(temp.line[position + 1] == '='){
+                resultTable.push_back(Unit("relop", "SELFMOD"));
+                position += 2;
+            }
+            else{
+                resultTable.push_back(Unit("%", "_"));
+                position++;
+            }
+            break;
         case '&':
+            if(temp.line[position + 1] == '='){
+                resultTable.push_back(Unit("relop", "SELFAND"));
+                position += 2;
+            }
+            else if(temp.line[position + 1] == '&'){
+                resultTable.push_back(Unit("relop", "LOGICAND"));
+                position += 2;
+            }
+            else{
+                resultTable.push_back(Unit("&", "_"));
+                position++;
+            }
+            break;
         case '|':
+            if(temp.line[position + 1] == '='){
+                resultTable.push_back(Unit("relop", "SELFOR"));
+                position += 2;
+            }
+            else if(temp.line[position + 1] == '|'){
+                resultTable.push_back(Unit("relop", "LOGICOR"));
+                position += 2;
+            }
+            else{
+                resultTable.push_back(Unit("|", "_"));
+                position++;
+            }
+            break;
         case '^':
+            if(temp.line[position + 1] == '='){
+                resultTable.push_back(Unit("relop", "SELFXOR"));
+                position += 2;
+            }
+            else{
+                resultTable.push_back(Unit("-", "^"));
+                position++;
+            }
+            break;
         case '(':
         case ')':
         case '\\':
@@ -199,6 +295,7 @@ void Analyzer::tokenDivide(const size_t &lineNumber)
             position++;
             break;
         default:
+//            errorTable.push_back(Error(lineNumber, "Error syntax"));
             position++;
             break;
 

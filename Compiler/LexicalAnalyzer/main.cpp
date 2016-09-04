@@ -10,5 +10,6 @@ int main(int argc, char *argv[])
     test.showRaw();
     test.analyze();
     test.showResult();
+    test.showError();
     return 0;
 }
