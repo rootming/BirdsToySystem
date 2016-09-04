@@ -2,21 +2,25 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <sstream>
 
 #define LINE_LENGTH_LIMIT 200
+
+using namespace std;
 
 class Analyzer
 {
 public:
     Analyzer();
-    void open(std::string filename);
+    void open(string filename);
     void showRaw();
+    void showResult();
     bool analyze();
 private:
     struct Line
     {
         size_t num;
-        std::string line;
+        string line;
 
         Line()
         {
@@ -24,7 +28,7 @@ private:
             this->line = "";
         }
 
-        Line(size_t num, std::string line)
+        Line(size_t num, string line)
         {
             this->num = num;
             this->line = line;
@@ -39,22 +43,38 @@ private:
 
     struct Unit
     {
-        std::string first;
-        std::string second;
-        Unit(std::string first, std::string second)
+        string first;
+        string second;
+        Unit(string first, string second)
         {
             this->first = first;
             this->second = second;
         }
 
+        Unit(char first, string second)
+        {
+            this->first = first;
+            this->second = second;
+        }
+
+        Unit(string first, size_t second)
+        {
+            stringstream temp;
+            temp << second;
+            this->first = first;
+            temp >> this->second;
+        }
+
     };
 
-    std::vector<Line> text;
-    std::vector<int> idTable;
-    std::vector<std::string> numTable;
+    vector<Line> text;
+    vector<string> idTable;
+    vector<string> numTable;
+    vector<Unit> resultTable;
 
     void blankCheck(size_t &position, const Line &data);
     bool letterCheck(const size_t &position, const Line &data);
     bool digitCheck(const size_t &position, const Line &data);
-    void tokenDivide(size_t lineNumber);
+    void tokenDivide(const size_t &lineNumber);
+    bool keyCheck(const string &data);
 };
