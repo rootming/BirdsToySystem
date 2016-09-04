@@ -156,8 +156,14 @@ void Analyzer::tokenDivide(const size_t &lineNumber)
                 position += 2;
             }
             else if(temp.line[position + 1] == '<'){
-                resultTable.push_back(Unit("relop", "LSHIFT"));
-                position += 2;
+                if(temp.line[position + 2] == '='){
+                    resultTable.push_back(Unit("relop", "SELFLSHIFT"));
+                    position += 3;
+                }
+                else{
+                    resultTable.push_back(Unit("relop", "LSHIFT"));
+                    position += 2;
+                }
             }
             else{
                 resultTable.push_back(Unit("<", "_"));
@@ -170,8 +176,14 @@ void Analyzer::tokenDivide(const size_t &lineNumber)
                 position += 2;
             }
             else if(temp.line[position + 1] == '>'){
-                resultTable.push_back(Unit("relop", "RSHIFT"));
-                position += 2;
+                if(temp.line[position + 2] == '='){
+                    resultTable.push_back(Unit("relop", "SELFRSHIFT"));
+                    position += 3;
+                }
+                else{
+                    resultTable.push_back(Unit("relop", "RSHIFT"));
+                    position += 2;
+                }
             }
             else{
                 resultTable.push_back(Unit(">", "_"));

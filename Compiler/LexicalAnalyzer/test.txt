@@ -13,6 +13,6 @@ int main(void)
     b -= 1;
     a = a << b;
     b = b >> a;
-    
+    b <<= 3;
     return 0;
 }
