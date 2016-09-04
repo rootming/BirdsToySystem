@@ -216,6 +216,10 @@ void Analyzer::tokenDivide(const size_t &lineNumber)
                 resultTable.push_back(Unit("relop", "SELFSUB"));
                 position += 2;
             }
+            else if(temp.line[position + 1] == '>'){
+                resultTable.push_back(Unit("relop", "POINT"));
+                position += 2;
+            }
             else{
                 resultTable.push_back(Unit("-", "_"));
                 position++;
