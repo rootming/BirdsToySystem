@@ -9,8 +9,7 @@ static const vector<string> keyTable = {
     "auto", "unsigned", "unsigned", "register", "static", "volatile", "extern", "const",
     "struct", "union", "enum", "typedef",
     "if", "else", "for", "while", "do", "switch", "case", "break", "continue", "default", "goto", "return",
-    "sizeof",
-    "+", "-", "*", "/", "<", ">"
+    "sizeof"
 };
 
 //static const char *keyTable[] = {
